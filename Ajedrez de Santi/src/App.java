@@ -34,10 +34,10 @@ public class App {
 				if (color == "Negro") {
 					if (cont % 2 == 0) {
 						cont++;
-						return new Alfil("Alfil", "Oblicuo", "", color, generarPosicion(2, 1));
+						return new Alfil("Alfil", "Oblicuo", "Sesgo", color, generarPosicion(2, 1));
 					} else {
 						cont++;
-						return new Alfil("Alfil", "Oblicuo", "", color, generarPosicion(5, 1));
+						return new Alfil("Alfil", "Oblicuo", "Sesgo", color, generarPosicion(5, 1));
 					}
 
 				} else {
