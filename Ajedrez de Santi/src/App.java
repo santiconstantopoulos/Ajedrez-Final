@@ -16,7 +16,7 @@ public class App {
 		return ((char) (i + 65) + String.valueOf(j));
 	}
 
-	public static Pieza procesarPieza(String tipoPieza, String color, Map map) {
+	public static Pieza procesarPieza(String tipoPieza, String color) {
 		Pieza pieza = null;
 		switch (tipoPieza) {
 
@@ -93,12 +93,12 @@ public class App {
 				if (color == "Negro") {
 					for (int i = 0; i < 8; i++) {
 						pieza = new Peon("Peon", "Ladinos", "Agresores", color, generarPosicion(i, 2));
-						almacenarPieza(pieza, map);
+						almacenarPieza(pieza);
 					}
 				} else {
 					for (int i = 0; i < 8; i++) {
 						pieza = new Peon("Peon", "Ladinos", "Agresores", color, generarPosicion(i, 7));
-						almacenarPieza(pieza, map);
+						almacenarPieza(pieza);
 
 					}
 				}
@@ -115,8 +115,16 @@ public class App {
 		new Tablero();
 	}
 
-	public static void almacenarPieza(Pieza mipieza, Map map) {
+	public static void almacenarPieza(Pieza mipieza) {
 
+		Map<String, Integer> map = new HashMap<String, Integer>();
+
+		map.put("Reina", 1);
+		map.put("Rey", 2);
+		map.put("Torre", 3);
+		map.put("Alfil", 4);
+		map.put("Caballo", 5);
+		map.put("Peon", 6);
 
 		// Objeto para ejecutar el alta/actualizacion en la base de datos
 		AccesoDatos accesoBD = null;
@@ -170,15 +178,7 @@ public class App {
 
 	public static void main(String[] args) throws Exception {
 		
-		Map<String, Integer> map = new HashMap<String, Integer>();
-
-		map.put("Reina", 1);
-		map.put("Rey", 2);
-		map.put("Torre", 3);
-		map.put("Alfil", 4);
-		map.put("Caballo", 5);
-		map.put("Peon", 6);
-
+	
 		/*
 		 * REFERENCIA DE IDTIPOPIEZA
 		 * # idTipoPieza Descripciondepieza
@@ -191,26 +191,27 @@ public class App {
 		 */
 		System.out.println("Bienvenido al Programa de Ajedrez.");
 		crearTablero();
+		// ESTOY HARCODEANDO EL ID TIPO DE PIEZA HASTA TANTO HAYA UNA LOGICA DE MAPEO O
+		// METODO QUE DEVUELVA EL VALOR NUMERICO
+		almacenarPieza(procesarPieza("Rey", "Negro"));
+		almacenarPieza(procesarPieza("Rey", "Blanco"));
 
-		almacenarPieza(procesarPieza("Rey", "Negro"), map);
-		almacenarPieza(procesarPieza("Rey", "Blanco"), map);
-
-		almacenarPieza(procesarPieza("Reina", "Negro"), map);
-		almacenarPieza(procesarPieza("Reina", "Blanco"), map);
-		almacenarPieza(procesarPieza("Alfil", "Negro"), map);
-		almacenarPieza(procesarPieza("Alfil", "Negro"), map);
-		almacenarPieza(procesarPieza("Alfil", "Blanco"), map);
-		almacenarPieza(procesarPieza("Alfil", "Blanco"), map);
-		almacenarPieza(procesarPieza("Caballo", "Negro"), map);
-		almacenarPieza(procesarPieza("Caballo", "Negro"), map);
-		almacenarPieza(procesarPieza("Caballo", "Blanco"), map);
-		almacenarPieza(procesarPieza("Caballo", "Blanco"), map);
-		almacenarPieza(procesarPieza("Torre", "Negro"), map);
-		almacenarPieza(procesarPieza("Torre", "Negro"), map);
-		almacenarPieza(procesarPieza("Torre", "Blanco"), map);
-		almacenarPieza(procesarPieza("Torre", "Blanco"), map);
-		procesarPieza("Peon", "Negro", map);
-		procesarPieza("Peon", "Blanco", map);
+		almacenarPieza(procesarPieza("Reina", "Negro"));
+		almacenarPieza(procesarPieza("Reina", "Blanco"));
+		almacenarPieza(procesarPieza("Alfil", "Negro"));
+		almacenarPieza(procesarPieza("Alfil", "Negro"));
+		almacenarPieza(procesarPieza("Alfil", "Blanco"));
+		almacenarPieza(procesarPieza("Alfil", "Blanco"));
+		almacenarPieza(procesarPieza("Caballo", "Negro"));
+		almacenarPieza(procesarPieza("Caballo", "Negro"));
+		almacenarPieza(procesarPieza("Caballo", "Blanco"));
+		almacenarPieza(procesarPieza("Caballo", "Blanco"));
+		almacenarPieza(procesarPieza("Torre", "Negro"));
+		almacenarPieza(procesarPieza("Torre", "Negro"));
+		almacenarPieza(procesarPieza("Torre", "Blanco"));
+		almacenarPieza(procesarPieza("Torre", "Blanco"));
+		procesarPieza("Peon", "Negro");
+		procesarPieza("Peon", "Blanco");
 	}
 
 }
