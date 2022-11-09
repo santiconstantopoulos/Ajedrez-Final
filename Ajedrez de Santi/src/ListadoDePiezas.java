@@ -138,7 +138,7 @@ public class ListadoDePiezas extends JFrame implements ActionListener, MouseList
         //Cargar datos en la tabla
         try {
         	// Instancio un objeto de acceso a datos
-        	accesoBD = new AccesoDatos();
+        	accesoBD = new AccesoDatos("localhost","root", "Santi!", 3306, "Ajedrez");
             //Preparar la llamada
             con = accesoBD.getConexion();
             sentencia = con.prepareStatement(query);

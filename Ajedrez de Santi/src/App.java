@@ -177,7 +177,7 @@ public class App {
 	}
 
 	public static void main(String[] args) throws Exception {
-		
+	/* 
 	
 		/*
 		 * REFERENCIA DE IDTIPOPIEZA
@@ -188,7 +188,7 @@ public class App {
 		 * 4 Alfil
 		 * 5 Caballo
 		 * 6 Peon
-		 */
+		 
 		System.out.println("Bienvenido al Programa de Ajedrez.");
 		crearTablero();
 		// ESTOY HARCODEANDO EL ID TIPO DE PIEZA HASTA TANTO HAYA UNA LOGICA DE MAPEO O
@@ -212,6 +212,10 @@ public class App {
 		almacenarPieza(procesarPieza("Torre", "Blanco"));
 		procesarPieza("Peon", "Negro");
 		procesarPieza("Peon", "Blanco");
+*/
+
+	
+
 	}
 
 }
