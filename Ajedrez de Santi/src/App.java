@@ -6,6 +6,9 @@ import java.util.Map;
 
 public class App {
 
+
+	
+
 	static int cont = 2;
 
 	public static String generarPosicion(int i, int j) {
@@ -13,7 +16,7 @@ public class App {
 		return ((char) (i + 65) + String.valueOf(j));
 	}
 
-	public static Pieza procesarPieza(String tipoPieza, String color) {
+	public static Pieza procesarPieza(String tipoPieza, String color, Map map) {
 		Pieza pieza = null;
 		switch (tipoPieza) {
 
@@ -40,10 +43,10 @@ public class App {
 				} else {
 					if (cont % 2 == 0) {
 						cont++;
-						return new Alfil("Alfil", "Oblicuo", "", color, generarPosicion(2, 8));
+						return new Alfil("Alfil", "Oblicuo", "Sesgo", color, generarPosicion(2, 8));
 					} else {
 						cont++;
-						return new Alfil("Alfil", "Oblicuo", "", color, generarPosicion(5, 8));
+						return new Alfil("Alfil", "Oblicuo", "Sesgo", color, generarPosicion(5, 8));
 					}
 				}
 
@@ -90,12 +93,12 @@ public class App {
 				if (color == "Negro") {
 					for (int i = 0; i < 8; i++) {
 						pieza = new Peon("Peon", "Ladinos", "Agresores", color, generarPosicion(i, 2));
-						almacenarPieza(pieza, 6);
+						almacenarPieza(pieza, map);
 					}
 				} else {
 					for (int i = 0; i < 8; i++) {
 						pieza = new Peon("Peon", "Ladinos", "Agresores", color, generarPosicion(i, 7));
-						almacenarPieza(pieza, 6);
+						almacenarPieza(pieza, map);
 
 					}
 				}
@@ -112,7 +115,9 @@ public class App {
 		new Tablero();
 	}
 
-	public static void almacenarPieza(Pieza mipieza, int idTipoPieza) {
+	public static void almacenarPieza(Pieza mipieza, Map map) {
+
+
 		// Objeto para ejecutar el alta/actualizacion en la base de datos
 		AccesoDatos accesoBD = null;
 		Connection con = null;
@@ -120,13 +125,13 @@ public class App {
 
 		try {
 			// Instancio un objeto de acceso a datos
-			accesoBD = new AccesoDatos("localhost","root", "Santi!", 3306, "Ajedrez", "", null);
+			accesoBD = new AccesoDatos("localhost","root", "Santi!", 3306, "Ajedrez");
 			// Obtener la conexion para poder generar la sentencia de consulta
 			con = accesoBD.getConexion();
 
 			
 			String insertScript = "INSERT INTO pieza"
-					+ "(Descripcion, Material_idMaterial, Color_idColor, Tamaño_idTamaño, TipoPieza_idTipoPieza, Posicion, Capacidad_Desplazamiento, Conducta)"
+					+ "(Descripcion, idMaterial, idColor, idTamanio, idTipoPieza, Posicion, Capacidad_Desplazamiento, Conducta)"
 					+ " VALUES(?,?,?,?,?,?,?,?)";
 			sentencia = con.prepareStatement(insertScript);
 
@@ -135,7 +140,7 @@ public class App {
 			sentencia.setInt(2, 1);
 			sentencia.setString(3, mipieza.getColor()); // negro 2 blanco 1
 			sentencia.setInt(4, 1);
-			sentencia.setInt(5, idTipoPieza);
+			sentencia.setInt(5, map.get(mipieza.getNombrePieza()));
 			sentencia.setString(6, mipieza.getPosicion());
 			sentencia.setString(7, mipieza.getCapacidadDesplazamiento());
 			sentencia.setString(8, mipieza.getConducta());
@@ -174,8 +179,6 @@ public class App {
 		map.put("Caballo", 5);
 		map.put("Peon", 6);
 
-		
-		
 		/*
 		 * REFERENCIA DE IDTIPOPIEZA
 		 * # idTipoPieza Descripciondepieza
@@ -188,31 +191,26 @@ public class App {
 		 */
 		System.out.println("Bienvenido al Programa de Ajedrez.");
 		crearTablero();
-		// ESTOY HARCODEANDO EL ID TIPO DE PIEZA HASTA TANTO HAYA UNA LOGICA DE MAPEO O
-		// METODO QUE DEVUELVA EL VALOR NUMERICO
-		almacenarPieza(procesarPieza("Rey", "Negro"), map.get("Rey"));
-		almacenarPieza(procesarPieza("Rey", "Blanco"), map.get("Rey"));
 
-		almacenarPieza(procesarPieza("Reina", "Negro"), map.get("Reina"));
-		almacenarPieza(procesarPieza("Reina", "Blanco"), map.get("Reina"));
+		almacenarPieza(procesarPieza("Rey", "Negro"), map);
+		almacenarPieza(procesarPieza("Rey", "Blanco"), map);
 
-		almacenarPieza(procesarPieza("Alfil", "Negro"), map.get("Alfil"));
-		almacenarPieza(procesarPieza("Alfil", "Negro"), map.get("Alfil"));
-		almacenarPieza(procesarPieza("Alfil", "Blanco"), map.get("Alfil"));
-		almacenarPieza(procesarPieza("Alfil", "Blanco"), map.get("Alfil"));
-
-		almacenarPieza(procesarPieza("Caballo", "Negro"), map.get("Caballo"));
-		almacenarPieza(procesarPieza("Caballo", "Negro"), map.get("Caballo"));
-		almacenarPieza(procesarPieza("Caballo", "Blanco"), map.get("Caballo"));
-		almacenarPieza(procesarPieza("Caballo", "Blanco"), map.get("Caballo"));
-
-		almacenarPieza(procesarPieza("Torre", "Negro"), map.get("Torre"));
-		almacenarPieza(procesarPieza("Torre", "Negro"), map.get("Torre"));
-		almacenarPieza(procesarPieza("Torre", "Blanco"), map.get("Torre"));
-		almacenarPieza(procesarPieza("Torre", "Blanco"), map.get("Torre"));
-
-		procesarPieza("Peon", "Negro");
-		procesarPieza("Peon", "Blanco");
+		almacenarPieza(procesarPieza("Reina", "Negro"), map);
+		almacenarPieza(procesarPieza("Reina", "Blanco"), map);
+		almacenarPieza(procesarPieza("Alfil", "Negro"), map);
+		almacenarPieza(procesarPieza("Alfil", "Negro"), map);
+		almacenarPieza(procesarPieza("Alfil", "Blanco"), map);
+		almacenarPieza(procesarPieza("Alfil", "Blanco"), map);
+		almacenarPieza(procesarPieza("Caballo", "Negro"), map);
+		almacenarPieza(procesarPieza("Caballo", "Negro"), map);
+		almacenarPieza(procesarPieza("Caballo", "Blanco"), map);
+		almacenarPieza(procesarPieza("Caballo", "Blanco"), map);
+		almacenarPieza(procesarPieza("Torre", "Negro"), map);
+		almacenarPieza(procesarPieza("Torre", "Negro"), map);
+		almacenarPieza(procesarPieza("Torre", "Blanco"), map);
+		almacenarPieza(procesarPieza("Torre", "Blanco"), map);
+		procesarPieza("Peon", "Negro", map);
+		procesarPieza("Peon", "Blanco", map);
 	}
 
 }

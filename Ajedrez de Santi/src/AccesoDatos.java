@@ -16,20 +16,17 @@ public class AccesoDatos {
 	private String servidor;
 	private Connection conexion;
 
-	public AccesoDatos(String maquina, String usuario, String clave, int puerto, String bd, String servidor,
-			Connection conexion) {
+	public AccesoDatos(String maquina, String usuario, String clave, int puerto, String bd) {
 
 		this.maquina = maquina;
 		this.usuario = usuario;
 		this.clave = clave;
 		this.puerto = puerto;
 		this.bd = bd;
-		this.servidor = servidor;
-		this.conexion = conexion;
 		this.servidor = "jdbc:mysql://" + this.maquina + ":" + this.puerto + "/" + this.bd;
 
 		// Carga el driver mysql en memoria
-		try {
+		/* try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException error) {
 
@@ -38,12 +35,11 @@ public class AccesoDatos {
 			System.err.println("ERROR AL REGISTRAR EL DRIVER");
 
 			System.exit(0); // parar la ejecuci�n
-		}
+		} */
 
 		// Establecer la conexi�n con el servidor y almacenarla en el atributo conexion
 		try {
-			conexion = DriverManager.getConnection(this.servidor,
-					this.usuario, this.clave);
+			conexion = DriverManager.getConnection(this.servidor, this.usuario, this.clave);
 		} catch (SQLException error) { // dfdfdsf
 			System.err.println("ERROR AL CONECTAR CON EL SERVIDOR");
 			error.printStackTrace();
